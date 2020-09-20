@@ -15,13 +15,14 @@ install:
   - npm ci # faster, goes only from package-lock
 before_script:
   - psql -c 'create database "deployment-exercise-test";' -U postgres # remember to change this name if you change it elsewhere (e.g. package.json)
-
-# before_deploy:
-#   - npm run build-client # make the bundle
-#   - rm -rf node_modules # omit from the tarball, since we skip cleanup
-# deploy:
-#   skip_cleanup: true # prevents travis from deleting the build
-#   provider: heroku
-#   app: YOUR-HEROKU-APP-NAME-HERE # see README
-#   api_key:
-#     secure: YOUR-***ENCRYPTED***-API-KEY-HERE
+before_deploy: # omit node_modules, since we set skip_cleanup below
+  - rm -rf node_modules
+deploy: # see README for details on these keys
+  # prevents travis from deleting the build
+  skip_cleanup: true
+  provider: heroku
+  # app should be your heroku app name; see README
+  app: cocoa-krispie-lighthouse
+  # the secure key indicates an encrypted value; see README
+  api_key:
+    secure: hiEukAltH/9HGOesUozJji+llbxlT0ZC/RlsUo4Yw3h99SrWN1gUDgKWacHf3GAksgwIYFeH/JxJLXH0TFF9n4uzLJ5x4XU18kp16GxYPBgwBNiiT9lO4ReovynBoSavdiVR0Fk/veX7qHuqsAKGUAF2zr20lX2mCpFHgf11Ar0yOGPXksLmx2yNzZz12HRSVy+F5YHBaIJQthMu1ssyvi72YFxj0H8cg6OZXtgi31By9QXGC63B7GvTEzfwnK7qHEbXred71DolDgTVHGyKtcCyv/+p2RMNy9tSqLK1JLKlm53X/5Y5qYpX5rQ8wRfMWaST1wnRtD5T/DB3Kgk9NjKTc8+sme665sb2gCaBA3X4GRJQFxOz8RYk5/wnNJHjDQAc8IgtolUG4p4BYcBN/RxkpfYsg1o/vBI7gGOFXY52R/q/FFXIOT026pqbnSRv9tVcBR9LIBBSrWX+yXb3nH+fvwq6zK5gAuGNYxctw4N3/P5Uy95H+GymEmxJzgi5tVE9MExLnDOCnWlf2ynvvktwubsNvc7cuuJmlSy2ZeswcoM70spGXKyCV180tY8Ng7vCT6oFtVjEuH1CmpyuiTv9xP6zClqHxB5olXhm/2Srnr+jVfiz3NmUQ0xFheJxzY0xV9d9ObU4CS2dqSAZq7ma9ZuvVBjAdWEBWWhyWsM=
